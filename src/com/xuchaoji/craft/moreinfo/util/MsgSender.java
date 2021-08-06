@@ -1,7 +1,9 @@
 package com.xuchaoji.craft.moreinfo.util;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Server;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 
@@ -33,5 +35,10 @@ public class MsgSender {
 
     public void sendConsoleMsg(String msg) {
         sender.sendMessage(msg);
+    }
+
+    public void sendPlayerMsg(Player player, String msg) {
+        String pluginTag = ChatColor.GREEN + "[MoreInfo] ";
+        player.sendMessage(pluginTag + ChatColor.WHITE + msg);
     }
 }
