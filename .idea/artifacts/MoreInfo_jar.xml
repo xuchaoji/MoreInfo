@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="MoreInfo:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/MoreInfo_jar</output-path>
+    <root id="archive" name="MoreInfo.jar">
+      <element id="module-output" name="MoreInfo" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../spigot-api/spigot-api-1.17.1-R0.1-20210804.225028-41-shaded.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

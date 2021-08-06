@@ -1,0 +1,5 @@
+name: MoreInfo
+version: 0.0.1
+author: chaoji
+main: com.xuchaoji.craft.moreinfo.MoreInfo
+api-version: 1.17
