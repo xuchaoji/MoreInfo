@@ -1,6 +1,9 @@
 package com.xuchaoji.craft.moreinfo.util;
 
 import com.xuchaoji.craft.moreinfo.constants.Constant;
+import org.bukkit.Bukkit;
+import org.bukkit.Server;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -46,6 +49,22 @@ public class CommonUtil {
 
     public static long getOfflineMinutes(PlayerJoinEvent event) {
         return getOfflineTime(event) / Constant.ONE_MIN;
+    }
+
+    public static void executeCommand(String command) {
+        if (null == command) {
+            return;
+        }
+        Server server = getPlugin().getServer();
+        CommandSender sender = server.getConsoleSender();
+        try {
+            boolean success = Bukkit.getScheduler().callSyncMethod(getPlugin(), () -> Bukkit.dispatchCommand(sender, command)).get();
+            if (success) {
+                MsgSender.getInstance(getPlugin()).sendConsoleMsg("execute command: " + command);
+            }
+        } catch (Exception e) {
+            MsgSender.getInstance(getPlugin()).sendConsoleMsg("execute command error: " + e.getClass().getSimpleName());
+        }
     }
 
 }
