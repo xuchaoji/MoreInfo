@@ -9,9 +9,10 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 public class CommonUtil {
-    private static JavaPlugin plugin;
+    public static JavaPlugin plugin;
 
     public static JavaPlugin getPlugin() {
         return plugin;
@@ -65,6 +66,12 @@ public class CommonUtil {
         } catch (Exception e) {
             MsgSender.getInstance(getPlugin()).sendConsoleMsg("execute command error: " + e.getClass().getSimpleName());
         }
+    }
+
+    public static boolean playerInList(String playerName, String configPath) {
+        ConfigHelper configHelper = ConfigHelper.getInstance(CommonUtil.plugin);
+        List<String> players = configHelper.getStringList(configPath);
+        return !ListUtil.isEmpty(players) && players.contains(playerName);
     }
 
 }

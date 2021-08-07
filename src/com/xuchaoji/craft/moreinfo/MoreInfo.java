@@ -2,6 +2,7 @@ package com.xuchaoji.craft.moreinfo;
 
 import com.xuchaoji.craft.moreinfo.events.PlayerJoinListener;
 import com.xuchaoji.craft.moreinfo.util.CommonUtil;
+import com.xuchaoji.craft.moreinfo.util.ConfigHelper;
 import com.xuchaoji.craft.moreinfo.util.MsgSender;
 import org.bukkit.Server;
 import org.bukkit.plugin.PluginManager;
@@ -11,6 +12,7 @@ public class MoreInfo extends JavaPlugin {
     private Server server;
     private MsgSender msgSender;
     private PluginManager pluginManager;
+    private ConfigHelper configHelper;
 
     @Override
     public void onDisable() {
@@ -32,6 +34,7 @@ public class MoreInfo extends JavaPlugin {
         msgSender = MsgSender.getInstance(this);
         server = getServer();
         pluginManager = server.getPluginManager();
+        configHelper = ConfigHelper.getInstance(this);
         CommonUtil.setPlugin(this);
     }
 }

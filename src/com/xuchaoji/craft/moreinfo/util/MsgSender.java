@@ -41,4 +41,11 @@ public class MsgSender {
     public void sendPlayerMsg(Player player, String msg) {
         player.sendMessage(pluginTag + msg);
     }
+
+    public void sendBroadcast(String msg) {
+        for (Player player : server.getOnlinePlayers()) {
+            sendPlayerMsg(player, msg);
+        }
+
+    }
 }
