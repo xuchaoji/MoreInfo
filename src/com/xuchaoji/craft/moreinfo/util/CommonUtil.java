@@ -1,5 +1,8 @@
 package com.xuchaoji.craft.moreinfo.util;
 
+import com.xuchaoji.craft.moreinfo.constants.Constant;
+import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.text.SimpleDateFormat;
@@ -24,4 +27,25 @@ public class CommonUtil {
         String sdf = "YYYY-MM-dd hh:mm:ss";
         return getFormatTime(sdf, time);
     }
+
+    public static long getOfflineTime(PlayerJoinEvent event) {
+        if (null == event) {
+            return 0;
+        }
+        Player player = event.getPlayer();
+        long time = System.currentTimeMillis() - player.getLastPlayed();
+        if (time <= 0) {
+            return 0;
+        }
+        return time;
+    }
+
+    public static long getOfflineHour(PlayerJoinEvent event) {
+        return getOfflineTime(event) / Constant.ONE_HOUR;
+    }
+
+    public static long getOfflineMinutes(PlayerJoinEvent event) {
+        return getOfflineTime(event) / Constant.ONE_MIN;
+    }
+
 }

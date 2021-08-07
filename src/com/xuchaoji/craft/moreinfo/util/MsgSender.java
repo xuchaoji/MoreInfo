@@ -8,6 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 
 public class MsgSender {
+    private static final String pluginTag = ChatColor.GREEN + "[MoreInfo] " + ChatColor.WHITE;
     private volatile static MsgSender instance;
 
     private JavaPlugin plugin;
@@ -34,11 +35,10 @@ public class MsgSender {
     }
 
     public void sendConsoleMsg(String msg) {
-        sender.sendMessage(msg);
+        sender.sendMessage(pluginTag + msg);
     }
 
     public void sendPlayerMsg(Player player, String msg) {
-        String pluginTag = ChatColor.GREEN + "[MoreInfo] ";
-        player.sendMessage(pluginTag + ChatColor.WHITE + msg);
+        player.sendMessage(pluginTag + msg);
     }
 }

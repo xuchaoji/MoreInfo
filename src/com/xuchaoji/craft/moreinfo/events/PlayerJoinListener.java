@@ -15,11 +15,22 @@ public class PlayerJoinListener implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         this.player = event.getPlayer();
 
+        MsgSender sender = MsgSender.getInstance(CommonUtil.getPlugin());
+
         long lastPlay = player.getLastPlayed();
         String msg = "Welcome "
                 + player.getDisplayName() + ", last play time: "
                 + ChatColor.GOLD + CommonUtil.getReadableTime(lastPlay);
-        MsgSender.getInstance(CommonUtil.getPlugin()).sendPlayerMsg(player, msg);
-
+        sender.sendPlayerMsg(player, msg);
+        long offLineHour = CommonUtil.getOfflineHour(event);
+        long experience = offLineHour * 100;
+        if (experience > Integer.MAX_VALUE) {
+            experience = 0;
+        }
+        String offExpMsg = " got " + ChatColor.YELLOW + experience
+                + ChatColor.WHITE + " offline experience.";
+        player.giveExp((int)experience);
+        sender.sendPlayerMsg(player, "You" + offExpMsg);
+        sender.sendConsoleMsg(player.getDisplayName() + offExpMsg);
     }
 }
