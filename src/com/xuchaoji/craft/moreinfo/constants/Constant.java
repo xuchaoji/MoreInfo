@@ -6,4 +6,6 @@ public interface Constant {
     long ONE_HOUR = 60 * 60 * 1000;
 
     long ONE_MIN = 60 * 1000;
+
+    int MAX_VIEW_DISTANCE = 16;
 }

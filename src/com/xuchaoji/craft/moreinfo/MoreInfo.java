@@ -1,5 +1,7 @@
 package com.xuchaoji.craft.moreinfo;
 
+import com.xuchaoji.craft.moreinfo.commands.GetBlokInfoCmd;
+import com.xuchaoji.craft.moreinfo.constants.CommandStrs;
 import com.xuchaoji.craft.moreinfo.events.PlayerJoinListener;
 import com.xuchaoji.craft.moreinfo.util.CommonUtil;
 import com.xuchaoji.craft.moreinfo.util.ConfigHelper;
@@ -28,6 +30,10 @@ public class MoreInfo extends JavaPlugin {
 
     private void registerListeners() {
         pluginManager.registerEvents(new PlayerJoinListener(), this);
+    }
+
+    private void registerCommands() {
+        this.getCommand(CommandStrs.GET_BLOCK_INFO).setExecutor(new GetBlokInfoCmd());
     }
 
     private void init() {

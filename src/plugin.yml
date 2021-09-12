@@ -3,3 +3,7 @@ version: 0.0.1
 author: chaoji
 main: com.xuchaoji.craft.moreinfo.MoreInfo
 api-version: 1.17
+commands:
+  inspectBlock:
+    description: get block data
+    usage: /inspectBlock

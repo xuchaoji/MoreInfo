@@ -1,5 +1,6 @@
 package com.xuchaoji.craft.moreinfo.util;
 
+import com.sun.istack.internal.NotNull;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
 import org.bukkit.command.ConsoleCommandSender;
@@ -17,7 +18,7 @@ public class MsgSender {
 
     private ConsoleCommandSender sender;
 
-    public static MsgSender getInstance(JavaPlugin plugin) {
+    public static MsgSender getInstance(@NotNull JavaPlugin plugin) {
         if (null == instance) {
             synchronized (MsgSender.class) {
                 if (null == instance) {

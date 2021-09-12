@@ -2,6 +2,7 @@ package com.xuchaoji.craft.moreinfo.util;
 
 import com.xuchaoji.craft.moreinfo.constants.Constant;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -72,6 +73,21 @@ public class CommonUtil {
         ConfigHelper configHelper = ConfigHelper.getInstance(CommonUtil.plugin);
         List<String> players = configHelper.getStringList(configPath);
         return !ListUtil.isEmpty(players) && players.contains(playerName);
+    }
+
+    public static String getLocStr(Location location) {
+        return getLocStr(location, " ");
+    }
+
+    public static String getLocStr(Location location, String seprator) {
+        if (null == location) {
+            return null;
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append(location.getX()).append(seprator);
+        sb.append(location.getY()).append(seprator);
+        sb.append(location.getZ());
+        return sb.toString();
     }
 
 }
