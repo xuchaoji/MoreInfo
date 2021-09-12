@@ -25,6 +25,7 @@ public class MoreInfo extends JavaPlugin {
     public void onEnable() {
         init();
         registerListeners();
+        registerCommands();
         msgSender.sendConsoleMsg("MoreInfo enabled.");
     }
 
