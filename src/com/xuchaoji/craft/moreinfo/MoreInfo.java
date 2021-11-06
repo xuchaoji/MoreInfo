@@ -1,6 +1,7 @@
 package com.xuchaoji.craft.moreinfo;
 
 import com.xuchaoji.craft.moreinfo.commands.GetBlokInfoCmd;
+import com.xuchaoji.craft.moreinfo.commands.TeleportCmd;
 import com.xuchaoji.craft.moreinfo.constants.CommandStrs;
 import com.xuchaoji.craft.moreinfo.events.PlayerJoinListener;
 import com.xuchaoji.craft.moreinfo.util.CommonUtil;
@@ -35,7 +36,9 @@ public class MoreInfo extends JavaPlugin {
 
     private void registerCommands() {
         this.getCommand(CommandStrs.GET_BLOCK_INFO).setExecutor(new GetBlokInfoCmd());
+        this.getCommand(CommandStrs.TEL_CMD).setExecutor(new TeleportCmd());
     }
+
 
     private void init() {
         msgSender = MsgSender.getInstance(this);

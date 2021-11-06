@@ -4,6 +4,7 @@ import com.xuchaoji.craft.moreinfo.constants.Constant;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Server;
+import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -76,18 +77,42 @@ public class CommonUtil {
     }
 
     public static String getLocStr(Location location) {
-        return getLocStr(location, " ");
+        return getLocStr(location, ",");
     }
 
-    public static String getLocStr(Location location, String seprator) {
+    public static Location getLocationByStr(String locationStr) {
+        return getLocationByStr(locationStr, ",");
+    }
+
+    public static Location getLocationByStr(String locationStr, String separator) {
+        String[] params = locationStr.split(separator);
+        if (null == params || params.length < 6) {
+            return null;
+        }
+        try {
+            World world = Bukkit.getWorld(params[0]);
+            double x = Double.valueOf(params[1]);
+            double y = Double.valueOf(params[2]);
+            double z = Double.valueOf(params[3]);
+            float yaw = Float.valueOf(params[4]);
+            float pitch = Float.valueOf(params[5]);
+            return new Location(world, x, y, z, yaw, pitch);
+        } catch (Throwable e) {
+            return null;
+        }
+    }
+
+    public static String getLocStr(Location location, String separator) {
         if (null == location) {
             return null;
         }
         StringBuilder sb = new StringBuilder();
-        sb.append(location.getX()).append(seprator);
-        sb.append(location.getY()).append(seprator);
-        sb.append(location.getZ());
+        sb.append(location.getWorld().getName()).append(separator)
+                .append(location.getX()).append(separator)
+                .append(location.getY()).append(separator)
+                .append(location.getZ()).append(separator)
+                .append(location.getYaw()).append(separator)
+                .append(location.getPitch());
         return sb.toString();
     }
-
 }

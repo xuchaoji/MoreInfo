@@ -39,8 +39,21 @@ public class MsgSender {
         sender.sendMessage(pluginTag + msg);
     }
 
+    public String dyeMsg(String msg, ChatColor color) {
+        return dyeMsg(msg, color, false);
+    }
+
+    public String dyeMsg(String msg, ChatColor color, boolean isBold) {
+        String baseMsg = color + msg;
+        return isBold ? (ChatColor.BOLD + baseMsg) : baseMsg;
+    }
+
     public void sendPlayerMsg(Player player, String msg) {
         player.sendMessage(pluginTag + msg);
+    }
+
+    public void sendPlayerMsg(Player player, String msg, ChatColor color) {
+        player.sendMessage(pluginTag + dyeMsg(msg, color));
     }
 
     public void sendBroadcast(String msg) {

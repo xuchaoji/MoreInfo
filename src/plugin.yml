@@ -7,3 +7,6 @@ commands:
   inspectBlock:
     description: get block data
     usage: /inspectBlock
+  ddtp:
+    description: 233craft teleport command
+    usage: /ddtp
