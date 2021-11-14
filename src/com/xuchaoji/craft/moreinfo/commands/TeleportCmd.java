@@ -73,6 +73,7 @@ public class TeleportCmd implements CommandExecutor {
         DDLocation publicLocation = configHelper.getPublicLoc(args[1]);
         if (null == publicLocation) {
             onLocError(player);
+            return;
         }
 
         if (!takeDiamond(player, 1)) {
@@ -91,6 +92,10 @@ public class TeleportCmd implements CommandExecutor {
             return;
         }
         DDLocation privateLoc = configHelper.getDDLocation(player, args[1]);
+        if (null == privateLoc) {
+            onLocError(player);
+            return;
+        }
         DDLocation tmpLoc = privateLoc;
         configHelper.shareDDLocation(tmpLoc, args[2], new ShareLocListener() {
             @Override

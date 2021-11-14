@@ -213,6 +213,9 @@ public class ConfigHelper {
 
     private DDLocation getDdLocationInConfig(Player player, String locName, String path) {
         Location location = CommonUtil.getLocationByStr(getString(path + LOC));
+        if (null == location) {
+            return null;
+        }
         boolean isPermanent = getBoolean(path + IS_PERMANENT);
         int remain = getInt(path + REMAIN);
         DDLocation ddLocation = new DDLocation(locName, location, player, isPermanent, remain);

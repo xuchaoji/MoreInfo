@@ -85,6 +85,9 @@ public class CommonUtil {
     }
 
     public static Location getLocationByStr(String locationStr, String separator) {
+        if (locationStr == null) {
+            return null;
+        }
         String[] params = locationStr.split(separator);
         if (null == params || params.length < 6) {
             return null;
