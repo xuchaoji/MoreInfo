@@ -1,5 +1,6 @@
 package com.xuchaoji.craft.moreinfo.util;
 
+import com.xuchaoji.craft.moreinfo.ShareLocListener;
 import com.xuchaoji.craft.moreinfo.datas.DDLocation;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -23,6 +24,8 @@ public class ConfigHelper {
     private static final String REMAIN = ".remainTimes";
 
     private static final String LOC_PLAYER_PREFIX = "ddtp.list.";
+
+    private static final String PUBLICK_LOC_PREFIX = "ddtp.public.";
 
     public static ConfigHelper getInstance(JavaPlugin plugin) {
         if (null == instance) {
@@ -126,16 +129,35 @@ public class ConfigHelper {
         synchronized (this) {
             Player player = ddLocation.getCreater();
             String nameAndPath = LOC_PLAYER_PREFIX + player.getDisplayName() + "." + ddLocation.getName();
-            String locStr = CommonUtil.getLocStr(ddLocation.getLocation());
-            boolean isPermanent = false;
-            int remainTimes = ddLocation.getRemainTimes();
-            if (remainTimes <= 0) {
-                saveString(nameAndPath, null);
+            saveLocToConfig(ddLocation, nameAndPath);
+        }
+    }
+
+    private void saveLocToConfig(DDLocation ddLocation, String nameAndPath) {
+        String locStr = CommonUtil.getLocStr(ddLocation.getLocation());
+        boolean isPermanent = ddLocation.isPermanent();
+        int remainTimes = ddLocation.getRemainTimes();
+        if (!isPermanent && remainTimes <= 0) {
+            saveString(nameAndPath, null);
+            return;
+        }
+        saveString(nameAndPath + LOC, locStr);
+        saveBoolean(nameAndPath + IS_PERMANENT, isPermanent);
+        saveInt(nameAndPath + REMAIN, remainTimes);
+        saveConfig();
+    }
+
+    public void shareDDLocation(DDLocation location, String publicName, ShareLocListener listener) {
+        synchronized (this) {
+            String path = PUBLICK_LOC_PREFIX + publicName;
+            getString(path);
+            if (null != getString(path)) {
+                listener.onNameRepeated();
                 return;
             }
-            saveString(nameAndPath + LOC, locStr);
-            saveBoolean(nameAndPath + IS_PERMANENT, isPermanent);
-            saveInt(nameAndPath + REMAIN, remainTimes);
+            location.setPermanent(true);
+            saveLocToConfig(location, path);
+            listener.onSuccess();
         }
     }
 
@@ -143,6 +165,24 @@ public class ConfigHelper {
         synchronized (this) {
             String path = LOC_PLAYER_PREFIX + player.getDisplayName();
             Set<String> list = getSections(path);
+            if (null == list || list.size() == 0) {
+                return null;
+            }
+            StringBuilder sb = new StringBuilder();
+            for (String name : list) {
+                sb.append(name).append(", ");
+            }
+            return sb.toString().trim();
+        }
+    }
+
+    public String getPublicList() {
+        synchronized (this) {
+            String path = PUBLICK_LOC_PREFIX;
+            Set<String> list = getSections(path);
+            if (null == list || list.size() == 0) {
+                return null;
+            }
             StringBuilder sb = new StringBuilder();
             for (String name : list) {
                 sb.append(name).append(", ");
@@ -164,14 +204,28 @@ public class ConfigHelper {
         synchronized (this) {
             try {
                 String path = LOC_PLAYER_PREFIX + player.getDisplayName() + "." + locName;
-                Location location = CommonUtil.getLocationByStr(getString(path + LOC));
-                boolean isPermanent = getBoolean(path + IS_PERMANENT);
-                int remain = getInt(path + REMAIN);
-                DDLocation ddLocation = new DDLocation(locName, location, player, isPermanent, remain);
-                return ddLocation;
+                return getDdLocationInConfig(player, locName, path);
             } catch (Throwable throwable) {
                 return null;
             }
+        }
+    }
+
+    private DDLocation getDdLocationInConfig(Player player, String locName, String path) {
+        Location location = CommonUtil.getLocationByStr(getString(path + LOC));
+        boolean isPermanent = getBoolean(path + IS_PERMANENT);
+        int remain = getInt(path + REMAIN);
+        DDLocation ddLocation = new DDLocation(locName, location, player, isPermanent, remain);
+        return ddLocation;
+    }
+
+    public DDLocation getPublicLoc(String locName) {
+        if (null == locName || "".equalsIgnoreCase(locName)) {
+            return null;
+        }
+        synchronized (this) {
+            String path = PUBLICK_LOC_PREFIX + locName;
+            return getDdLocationInConfig(null, locName, path);
         }
     }
 
