@@ -70,14 +70,16 @@ public class TeleportCmd implements CommandExecutor {
         if (args == null || args.length < 2) {
             return;
         }
+        DDLocation publicLocation = configHelper.getPublicLoc(args[1]);
+        if (null == publicLocation) {
+            onLocError(player);
+        }
+
         if (!takeDiamond(player, 1)) {
             msgSender.sendPlayerMsg(player, "传送到公共传送点需要一颗钻石，手持钻石重试一次吧。", ChatColor.RED);
             return;
         }
-        DDLocation publicLocation = configHelper.getPublicLoc(args[1]);
-        if (null == publicLocation) {
-            onParamError(player);
-        }
+
         Location targetLoc = publicLocation.getLocation();
         player.teleport(targetLoc);
         msgSender.sendPlayerMsg(player, "已传送到：" + args[1]);
