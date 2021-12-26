@@ -1,6 +1,7 @@
 package com.xuchaoji.craft.moreinfo.util;
 
 import com.xuchaoji.craft.moreinfo.constants.Constant;
+import com.xuchaoji.craft.moreinfo.datas.DDLocation;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Server;
@@ -117,5 +118,14 @@ public class CommonUtil {
                 .append(location.getYaw()).append(separator)
                 .append(location.getPitch());
         return sb.toString();
+    }
+
+    public static DDLocation copyNewLoc(DDLocation source) {
+        if (null == source) {
+            return null;
+        }
+        DDLocation copy = new DDLocation(source.getName(), source.getLocation(), source.getCreater(), source.isPublic(), source.getRemainTimes());
+        copy.setPermanent(source.isPermanent());
+        return copy;
     }
 }

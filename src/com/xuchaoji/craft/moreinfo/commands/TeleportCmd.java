@@ -96,12 +96,11 @@ public class TeleportCmd implements CommandExecutor {
             onLocError(player);
             return;
         }
-        DDLocation tmpLoc = privateLoc;
+        DDLocation tmpLoc = CommonUtil.copyNewLoc(privateLoc);
         configHelper.shareDDLocation(tmpLoc, args[2], new ShareLocListener() {
             @Override
             public void onSuccess() {
                 msgSender.sendPlayerMsg(player, "公共传送点创建成功");
-                privateLoc.setRemainTimes(0);
                 configHelper.saveDDLocation(privateLoc);
             }
 
