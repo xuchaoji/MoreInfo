@@ -161,6 +161,12 @@ public class TeleportCmd implements CommandExecutor {
         Location target = targetLocation.getLocation();
         player.teleport(target);
         int remain = targetLocation.getRemainTimes();
+        if (0 <= remain) {
+            msgSender.sendPlayerMsg(player, "传送点已无传送次数。");
+            targetLocation.setRemainTimes(0);
+            targetLocation.setPermanent(false);
+            configHelper.saveDDLocation(targetLocation);
+        }
         targetLocation.setRemainTimes(remain - 1);
         configHelper.saveDDLocation(targetLocation);
         msgSender.sendPlayerMsg(player, "已传送到：" + targetLocation.getName() + "， 剩余次数：" + targetLocation.getRemainTimes(), ChatColor.GREEN);
